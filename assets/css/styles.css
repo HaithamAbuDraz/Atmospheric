@@ -1,0 +1,35 @@
+/* DESIGN TOKENS */
+:root {
+  --sky-clear: linear-gradient(
+    160deg,
+    #0a1628 0%,
+    #0e2954 40%,
+    #1a4a8a 70%,
+    #2d6bc4 100%
+  );
+
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --text-primary: rgba(255, 255, 255, 0.95);
+}
+
+/* RESET & BASE */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--sky-clear);
+  transition: background 2s ease;
+  overflow-x: hidden;
+}
