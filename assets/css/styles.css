@@ -1,15 +1,18 @@
 /* DESIGN TOKENS */
 :root {
-  --sky-clear: linear-gradient(
-    160deg,
-    #0a1628 0%,
-    #0e2954 40%,
-    #1a4a8a 70%,
-    #2d6bc4 100%
-  );
+  /* Base colors */
+  --bg-deep: #06060f;
 
-  --font-body: "DM Sans", system-ui, sans-serif;
-  --text-primary: rgba(255, 255, 255, 0.95);
+  /* Text */
+  --text-primary: #f0f0f5;
+
+  /* Typography */
+  --font-body:
+    "SF Pro Text", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-slow: 500ms;
 }
 
 /* RESET & BASE */
@@ -23,13 +26,19 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  min-height: 100vh;
   font-family: var(--font-body);
+  background: var(--bg-deep);
   color: var(--text-primary);
-  background: var(--sky-clear);
-  transition: background 2s ease;
+  min-height: 100vh;
   overflow-x: hidden;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  transition: background-color var(--duration-slow) var(--ease-out);
 }
