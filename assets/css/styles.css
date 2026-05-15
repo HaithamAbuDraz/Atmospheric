@@ -1,4 +1,4 @@
-/* DESIGN TOKENS */
+/* ====== DESIGN TOKENS ====== */
 :root {
   /* Base colors */
   --bg-deep: #06060f;
@@ -21,6 +21,7 @@
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
+  --space-xl: 32px;
   --space-lg: 24px;
 
   /* Radii */
@@ -40,11 +41,14 @@
   --duration-slow: 500ms;
 
   /* Font sizes */
+  --text-hero: clamp(4rem, 8vw, 7rem);
+  --text-h1: clamp(2rem, 4vw, 3rem);
+  --text-h3: 1.2rem;
   --text-body: 0.95rem;
   --text-sm: 0.8rem;
 }
 
-/* RESET & BASE */
+/* ====== RESET & BASE ====== */
 *,
 *::before,
 *::after {
@@ -72,7 +76,7 @@ body {
   transition: background-color var(--duration-slow) var(--ease-out);
 }
 
-/* LAYOUT */
+/* ====== LAYOUT ====== */
 .app-container {
   position: relative;
   z-index: 2;
@@ -85,7 +89,7 @@ body {
   min-height: 100vh;
 }
 
-/* NAVIGATION BAR */
+/* ====== NAVIGATION BAR ====== */
 .nav-bar {
   display: flex;
   align-items: center;
@@ -257,4 +261,78 @@ body {
   border-color: var(--accent);
   box-shadow: 0 0 16px var(--accent-soft);
   background: var(--bg-glass-hover);
+}
+
+/* ====== HERO WEATHER SECTION ====== */
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  position: relative;
+}
+
+.hero-city {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text-accent);
+  margin-bottom: var(--space-xs);
+}
+
+.hero-date {
+  color: var(--text-tertiary);
+  font-size: var(--text-body);
+  letter-spacing: 0.02em;
+}
+
+.hero-temp {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 200;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--text-accent);
+  margin: var(--space-md) 0;
+  position: relative;
+}
+
+.hero-temp sup {
+  font-size: 0.35em;
+  font-weight: 300;
+  vertical-align: super;
+  letter-spacing: 0;
+}
+
+.hero-condition {
+  font-size: var(--text-h3);
+  color: var(--text-secondary);
+  text-transform: capitalize;
+  letter-spacing: 0.01em;
+}
+
+.hero-feels-like {
+  color: var(--text-tertiary);
+  font-size: var(--text-body);
+  margin-top: var(--space-xs);
+}
+
+.hero-icon {
+  font-size: 5rem;
+  margin-bottom: var(--space-sm);
+  animation: floatIcon 4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 24px var(--accent-glow));
+}
+
+@keyframes floatIcon {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
