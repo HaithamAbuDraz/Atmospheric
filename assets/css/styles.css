@@ -2,14 +2,19 @@
 :root {
   /* Base colors */
   --bg-deep: #06060f;
+  --bg-glass: rgba(18, 18, 40, 0.55);
+  --bg-glass-hover: rgba(22, 22, 50, 0.65);
+  --bg-glass-border: rgba(255, 255, 255, 0.08);
 
   /* Text */
   --text-primary: #f0f0f5;
+  --text-tertiary: #6b6b88;
   --text-accent: #ffffff;
 
   /* Accent — dynamic via JS */
   --accent: #5b9cf5;
   --accent-glow: rgba(91, 156, 245, 0.35);
+  --accent-soft: rgba(91, 156, 245, 0.15);
 
   /* Spacing */
   --space-xs: 4px;
@@ -18,6 +23,7 @@
   --space-lg: 24px;
 
   /* Radii */
+  --radius-xl: 28px;
   --radius-full: 50%;
 
   /* Typography */
@@ -28,7 +34,12 @@
 
   /* Transitions */
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
   --duration-slow: 500ms;
+
+  /* Font sizes */
+  --text-body: 0.95rem;
 }
 
 /* RESET & BASE */
@@ -121,4 +132,67 @@ body {
   align-items: center;
   gap: var(--space-sm);
   flex-wrap: wrap;
+}
+
+/* Search bar */
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 380px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 44px 12px 18px;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--bg-glass-border);
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  outline: none;
+  transition: all var(--duration-normal) var(--ease-out);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 24px var(--accent-glow),
+    0 0 0 4px var(--accent-soft);
+  background: var(--bg-glass-hover);
+}
+
+.search-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-size: 1rem;
+}
+
+.search-btn:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.search-btn:active {
+  transform: translateY(-50%) scale(0.95);
 }
