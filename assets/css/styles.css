@@ -5,8 +5,24 @@
 
   /* Text */
   --text-primary: #f0f0f5;
+  --text-accent: #ffffff;
+
+  /* Accent — dynamic via JS */
+  --accent: #5b9cf5;
+  --accent-glow: rgba(91, 156, 245, 0.35);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  /* Radii */
+  --radius-full: 50%;
 
   /* Typography */
+  --font-display:
+    "SF Pro Display", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-body:
     "SF Pro Text", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 
@@ -41,4 +57,68 @@ body {
   line-height: 1.5;
   letter-spacing: -0.01em;
   transition: background-color var(--duration-slow) var(--ease-out);
+}
+
+/* LAYOUT */
+.app-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-height: 100vh;
+}
+
+/* NAVIGATION BAR */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: var(--space-sm) 0;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-accent);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.nav-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  50% {
+    box-shadow:
+      0 0 20px var(--accent-glow),
+      0 0 40px var(--accent-glow);
+  }
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
 }
