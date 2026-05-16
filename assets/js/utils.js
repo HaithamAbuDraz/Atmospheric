@@ -36,3 +36,30 @@ export function formatHour(timestamp, timezoneOffset) {
     timeZone: 'UTC'
   });
 }
+
+export function convertTemp(kelvin, units) {
+  if (units === 'metric') return kelvin - 273.15;
+  return (kelvin - 273.15) * 9 / 5 + 32;
+}
+
+export function formatTemp(kelvin, units) {
+  return Math.round(convertTemp(kelvin, units));
+}
+
+export function getWindUnit(units) {
+  return units === 'metric' ? 'm/s' : 'mph';
+}
+
+export function convertWindSpeed(ms, units) {
+  if (units === 'metric') return ms;
+  return ms * 2.237;
+}
+
+export function getVisibilityUnit(units) {
+  return units === 'metric' ? 'km' : 'mi';
+}
+
+export function convertVisibility(meters, units) {
+  if (units === 'metric') return (meters / 1000).toFixed(1);
+  return (meters / 1609.34).toFixed(1);
+}
