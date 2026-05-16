@@ -33,6 +33,7 @@
   --space-lg: 24px;
 
   /* Radii */
+  --radius-md: 16px;
   --radius-lg: 22px;
   --radius-xl: 28px;
   --radius-full: 50%;
@@ -487,4 +488,45 @@ body {
   font-size: 1.1rem;
   font-weight: 500;
   color: var(--text-accent);
+}
+
+/* Slider Buttons */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  border-radius: var(--radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  z-index: 3;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s;
+}
+
+.slider-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.slider-btn.left {
+  left: 4px;
+}
+
+.slider-btn.right {
+  right: 4px;
+}
+
+@media (max-width: 768px) {
+  .slider-btn {
+    width: 28px;
+    height: 28px;
+  }
 }
