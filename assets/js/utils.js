@@ -63,3 +63,42 @@ export function convertVisibility(meters, units) {
   if (units === 'metric') return (meters / 1000).toFixed(1);
   return (meters / 1609.34).toFixed(1);
 }
+
+export function getWeatherEmoji(weatherId, isDay = true) {
+  if (weatherId >= 200 && weatherId < 300) return '⛈️';
+  if (weatherId >= 300 && weatherId < 400) return '🌦️';
+  if (weatherId >= 500 && weatherId < 511) return '🌧️';
+  if (weatherId === 511) return '🌨️';
+  if (weatherId >= 520 && weatherId < 600) return '🌦️';
+  if (weatherId >= 600 && weatherId < 700) return '❄️';
+  if (weatherId >= 700 && weatherId < 800) return '🌫️';
+  if (weatherId === 800) return isDay ? '☀️' : '🌙';
+  if (weatherId === 801) return isDay ? '🌤️' : '🌙';
+  if (weatherId === 802) return '⛅';
+  if (weatherId >= 803) return '☁️';
+  return '🌈';
+}
+
+export function getWeatherCondition(weatherId) {
+  if (weatherId >= 200 && weatherId < 300) return 'Thunderstorm';
+  if (weatherId >= 300 && weatherId < 500) return 'Drizzle';
+  if (weatherId >= 500 && weatherId < 600) return 'Rain';
+  if (weatherId >= 600 && weatherId < 700) return 'Snow';
+  if (weatherId >= 700 && weatherId < 800) return 'Mist';
+  if (weatherId === 800) return 'Clear';
+  if (weatherId >= 801) return 'Clouds';
+  return 'Clear';
+}
+
+export function getAccentColor(condition) {
+  const colors = {
+    'Clear': '#f5a65b',
+    'Clouds': '#8da4c8',
+    'Rain': '#5b8cf5',
+    'Drizzle': '#6b9ef5',
+    'Thunderstorm': '#7b5bf5',
+    'Snow': '#b8d4f5',
+    'Mist': '#8b9eb0',
+  };
+  return colors[condition] || '#5b9cf5';
+}
