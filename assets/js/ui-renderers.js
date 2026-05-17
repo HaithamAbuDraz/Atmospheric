@@ -101,3 +101,25 @@ export function renderForecastGrid(forecast, timezoneOffset, units) {
     `;
   }).join('');
 }
+
+export function renderHighlights(weather, units) {
+  const windDeg = weather.wind.deg || 0;
+  const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  const windDir = directions[Math.round(windDeg / 45) % 8];
+
+  const highlights = [
+    { label: 'Wind Direction', value: windDir, sub: `${windDeg}°`, icon: '🧭' },
+    { label: 'Humidity', value: `${weather.main.humidity}%`, sub: weather.main.humidity > 60 ? 'Slightly humid' : 'Comfortable', icon: '💧' },
+    { label: 'Pressure', value: `${weather.main.pressure} hPa`, sub: weather.main.pressure > 1013 ? 'High pressure' : 'Low pressure', icon: '📐' },
+    { label: 'Visibility', value: `${convertVisibility(weather.visibility, units)} ${getVisibilityUnit(units)}`, sub: weather.visibility > 8000 ? 'Good visibility' : 'Reduced visibility', icon: '👀' },
+  ];
+
+  DOM.highlightsGrid.innerHTML = highlights.map(h => `
+    <div class="highlight-card">
+      <div style="font-size:2rem;">${h.icon}</div>
+      <div class="highlight-label">${h.label}</div>
+      <div class="highlight-value">${h.value}</div>
+      <div class="highlight-sub">${h.sub}</div>
+    </div>
+  `).join('');
+}
