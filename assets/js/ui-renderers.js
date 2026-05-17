@@ -58,3 +58,19 @@ export function renderCurrentDetails(weather, units) {
     </div>
   `).join('');
 }
+
+export function renderHourlyForecast(forecast, timezoneOffset, units) {
+  const hourlyData = forecast.list.slice(0, 12);
+  DOM.hourlySlider.innerHTML = hourlyData.map(item => {
+    const hour = formatHour(item.dt, timezoneOffset);
+    const icon = getWeatherEmoji(item.weather[0].id, true);
+    const temp = formatTemp(item.main.temp, units);
+    return `
+      <div class="hourly-card">
+        <div class="hourly-time">${hour}</div>
+        <div class="hourly-icon">${icon}</div>
+        <div class="hourly-temp">${temp}°</div>
+      </div>
+    `;
+  }).join('');
+}
