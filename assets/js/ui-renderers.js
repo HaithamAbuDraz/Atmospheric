@@ -74,3 +74,30 @@ export function renderHourlyForecast(forecast, timezoneOffset, units) {
     `;
   }).join('');
 }
+
+export function renderForecastGrid(forecast, timezoneOffset, units) {
+  const dailyMap = {};
+  forecast.list.forEach(item => {
+    const dayKey = formatDay(item.dt, timezoneOffset);
+    if (!dailyMap[dayKey]) {
+      dailyMap[dayKey] = { temps: [], icons: [], dt: item.dt };
+    }
+    dailyMap[dayKey].temps.push(item.main.temp);
+    dailyMap[dayKey].icons.push(item.weather[0].id);
+  });
+
+  const days = Object.entries(dailyMap).slice(0, 5);
+  DOM.forecastGrid.innerHTML = days.map(([day, data]) => {
+    const high = formatTemp(Math.max(...data.temps), units);
+    const low = formatTemp(Math.min(...data.temps), units);
+    const icon = getWeatherEmoji(data.icons[Math.floor(data.icons.length / 2)], true);
+    return `
+      <div class="forecast-card">
+        <div class="forecast-day">${day}</div>
+        <div class="forecast-icon">${icon}</div>
+        <span class="forecast-high">${high}°</span>
+        <span class="forecast-low">${low}°</span>
+      </div>
+    `;
+  }).join('');
+}
