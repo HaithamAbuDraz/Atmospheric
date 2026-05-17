@@ -18,3 +18,11 @@ export function setDOMReferences(refs) {
 export function setState(newState) {
   state = { ...state, ...newState };
 }
+
+export function updateAccentColor(condition) {
+  const accent = getAccentColor(condition);
+  document.documentElement.style.setProperty('--accent', accent);
+  document.documentElement.style.setProperty('--accent-glow', hexToRGBA(accent, 0.4));
+  document.documentElement.style.setProperty('--accent-soft', hexToRGBA(accent, 0.18));
+}
+
