@@ -186,3 +186,112 @@ export function renderAirQuality(airPollution) {
     </div>
   `).join('');
 }
+
+export function renderChart(forecast, timezoneOffset, units, weatherCondition) {
+  if (typeof Chart === 'undefined') {
+    console.error('Chart.js library failed to load');
+    DOM.chartContainer.innerHTML = '<div style="text-align:center;padding:2rem;">Chart unavailable</div>';
+    return;
+  }
+
+  if (chartInstance) {
+    chartInstance.destroy();
+    chartInstance = null;
+  }
+
+  const isMobile = window.innerWidth < 768;
+  const dataPoints = isMobile ? 8 : 16;
+  const labels = forecast.list.slice(0, dataPoints).map(item => formatHour(item.dt, timezoneOffset));
+  const temps = forecast.list.slice(0, dataPoints).map(item => convertTemp(item.main.temp, units));
+  const feelsLike = forecast.list.slice(0, dataPoints).map(item => convertTemp(item.main.feels_like, units));
+
+  const ctx = DOM.tempChartCanvas.getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Temperature',
+          data: temps,
+          borderColor: getAccentColor(weatherCondition),
+          backgroundColor: getAccentColor(weatherCondition).replace(')', ', 0.15)').replace('rgb', 'rgba'),
+          fill: true,
+          tension: 0.5,
+          pointRadius: isMobile ? 2 : 4,
+          pointHoverRadius: isMobile ? 4 : 6,
+          pointBackgroundColor: getAccentColor(weatherCondition),
+          pointBorderColor: '#fff',
+          pointBorderWidth: isMobile ? 1 : 2,
+          borderWidth: isMobile ? 1.5 : 2.5,
+        },
+        {
+          label: 'Feels Like',
+          data: feelsLike,
+          borderColor: 'rgba(255,255,255,0.4)',
+          borderDash: [6, 3],
+          fill: false,
+          tension: 0.5,
+          pointRadius: isMobile ? 1 : 3,
+          pointHoverRadius: isMobile ? 3 : 5,
+          pointBackgroundColor: 'rgba(255,255,255,0.6)',
+          borderWidth: isMobile ? 1 : 1.8,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: '#b0b0c8',
+            usePointStyle: true,
+            padding: isMobile ? 10 : 20,
+            font: { family: "'Inter', sans-serif", size: isMobile ? 9 : 11 },
+            boxWidth: isMobile ? 8 : 12,
+          },
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: 'rgba(18,18,40,0.95)',
+          titleColor: '#f0f0f5',
+          bodyColor: '#b0b0c8',
+          borderColor: 'rgba(255,255,255,0.12)',
+          borderWidth: 1,
+          cornerRadius: 8,
+          padding: isMobile ? 8 : 12,
+          titleFont: { size: isMobile ? 11 : 12 },
+          bodyFont: { size: isMobile ? 10 : 11 },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#6b6b88',
+            font: { size: isMobile ? 8 : 10 },
+            maxRotation: 45,
+            autoSkip: true,
+            maxTicksLimit: isMobile ? 6 : 12
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+        },
+        y: {
+          ticks: {
+            color: '#6b6b88',
+            font: { size: isMobile ? 8 : 10 },
+            callback: v => v.toFixed(0) + '°',
+            stepSize: isMobile ? 10 : 5,
+          },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+        },
+      },
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false,
+      },
+    },
+  });
+}
