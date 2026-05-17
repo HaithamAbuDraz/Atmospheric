@@ -26,3 +26,16 @@ export function updateAccentColor(condition) {
   document.documentElement.style.setProperty('--accent-soft', hexToRGBA(accent, 0.18));
 }
 
+export function renderHero(weather, units) {
+  const condition = getWeatherCondition(weather.weather[0].id);
+  const isDay = weather.dt > weather.sys.sunrise && weather.dt < weather.sys.sunset;
+  state.weatherCondition = condition;
+  updateAccentColor(condition);
+
+  DOM.heroIcon.textContent = getWeatherEmoji(weather.weather[0].id, isDay);
+  DOM.heroCity.textContent = `${weather.name}, ${weather.sys.country || ''}`;
+  DOM.heroDate.textContent = formatDate(weather.dt, weather.timezone);
+  DOM.heroTemp.innerHTML = `${formatTemp(weather.main.temp, units)}<sup>°</sup>`;
+  DOM.heroCondition.textContent = weather.weather[0].description;
+  DOM.heroFeelsLike.textContent = `Feels like ${formatTemp(weather.main.feels_like, units)}°${units === 'metric' ? 'C' : 'F'}`;
+}
