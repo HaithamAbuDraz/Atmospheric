@@ -123,3 +123,35 @@ export function renderHighlights(weather, units) {
     </div>
   `).join('');
 }
+
+export function renderSunriseSunset(weather) {
+  const sunrise = formatTime(weather.sys.sunrise, weather.timezone);
+  const sunset = formatTime(weather.sys.sunset, weather.timezone);
+  DOM.sunriseTime.textContent = sunrise;
+  DOM.sunsetTime.textContent = sunset;
+
+  const now = weather.dt + weather.timezone;
+  const sunriseSec = weather.sys.sunrise + weather.timezone;
+  const sunsetSec = weather.sys.sunset + weather.timezone;
+  const dayLength = sunsetSec - sunriseSec;
+
+  if (dayLength <= 0) {
+    DOM.sunDot.style.display = 'none';
+    return;
+  }
+  DOM.sunDot.style.display = 'block';
+
+  if (now >= sunriseSec && now <= sunsetSec) {
+    const progress = (now - sunriseSec) / dayLength;
+    const leftPercent = 5 + progress * 90;
+    DOM.sunDot.style.left = `${leftPercent}%`;
+    DOM.sunDot.style.opacity = '1';
+  } else if (now < sunriseSec) {
+    DOM.sunDot.style.left = '5%';
+    DOM.sunDot.style.opacity = '0.4';
+  } else {
+    DOM.sunDot.style.left = '95%';
+    DOM.sunDot.style.opacity = '0.4';
+  }
+}
+
