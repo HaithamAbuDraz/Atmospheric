@@ -155,3 +155,34 @@ export function renderSunriseSunset(weather) {
   }
 }
 
+export function renderAirQuality(airPollution) {
+  if (!airPollution || !airPollution.list || !airPollution.list.length) {
+    DOM.airQualitySection.style.display = 'none';
+    return;
+  }
+  DOM.airQualitySection.style.display = 'block';
+  const aqi = airPollution.list[0].main.aqi;
+  const components = airPollution.list[0].components;
+  const aqiLabels = ['', 'Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
+  const aqiClasses = ['', 'aqi-good', 'aqi-moderate', 'aqi-unhealthy', 'aqi-bad', 'aqi-bad'];
+
+  DOM.aqiBadge.textContent = `AQI: ${aqi} — ${aqiLabels[aqi]}`;
+  DOM.aqiBadge.className = `aqi-badge ${aqiClasses[aqi] || 'aqi-moderate'}`;
+  DOM.aqiDescription.textContent = `Air quality is ${aqiLabels[aqi].toLowerCase()}. ${aqi <= 2 ? 'Conditions are good for outdoor activities.' : 'Sensitive groups should take precautions.'}`;
+
+  const compData = [
+    { label: 'PM2.5', value: components.pm2_5?.toFixed(1) || '—', unit: 'µg/m³' },
+    { label: 'PM10', value: components.pm10?.toFixed(1) || '—', unit: 'µg/m³' },
+    { label: 'CO', value: components.co?.toFixed(0) || '—', unit: 'µg/m³' },
+    { label: 'NO₂', value: components.no2?.toFixed(1) || '—', unit: 'µg/m³' },
+    { label: 'O₃', value: components.o3?.toFixed(1) || '—', unit: 'µg/m³' },
+  ];
+
+  DOM.aqiComponents.innerHTML = compData.map(c => `
+    <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.02);border-radius:10px;">
+      <div style="font-size:0.7rem;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.05em;">${c.label}</div>
+      <div style="font-weight:600;color:var(--text-primary);font-size:1rem;">${c.value}</div>
+      <div style="font-size:0.65rem;color:var(--text-tertiary);">${c.unit}</div>
+    </div>
+  `).join('');
+}
