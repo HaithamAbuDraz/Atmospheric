@@ -39,3 +39,22 @@ export function renderHero(weather, units) {
   DOM.heroCondition.textContent = weather.weather[0].description;
   DOM.heroFeelsLike.textContent = `Feels like ${formatTemp(weather.main.feels_like, units)}°${units === 'metric' ? 'C' : 'F'}`;
 }
+
+export function renderCurrentDetails(weather, units) {
+  const details = [
+    { label: 'Humidity', value: `${weather.main.humidity}%`, icon: '💧' },
+    { label: 'Wind', value: `${convertWindSpeed(weather.wind.speed, units).toFixed(1)} ${getWindUnit(units)}`, icon: '💨' },
+    { label: 'Pressure', value: `${weather.main.pressure} hPa`, icon: '🔵' },
+    { label: 'Visibility', value: `${convertVisibility(weather.visibility, units)} ${getVisibilityUnit(units)}`, icon: '👁️' },
+    { label: 'Cloud Cover', value: `${weather.clouds.all}%`, icon: '☁️' },
+    { label: 'Max / Min', value: `${formatTemp(weather.main.temp_max, units)}° / ${formatTemp(weather.main.temp_min, units)}°`, icon: '📊' },
+  ];
+
+  DOM.currentDetailGrid.innerHTML = details.map(d => `
+    <div class="card" style="text-align:center;">
+      <div style="font-size:1.8rem;margin-bottom:8px;">${d.icon}</div>
+      <div class="card-value" style="font-size:1.2rem;">${d.value}</div>
+      <div class="card-subtitle">${d.label}</div>
+    </div>
+  `).join('');
+}
