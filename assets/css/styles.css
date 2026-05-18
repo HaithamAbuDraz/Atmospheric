@@ -530,3 +530,21 @@ body {
     height: 28px;
   }
 }
+
+/* ====== CHART CONTAINER ====== */
+.chart-container {
+  background: var(--bg-glass);
+  border: 1.5px solid var(--bg-glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  height: 320px;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
