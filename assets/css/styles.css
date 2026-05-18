@@ -596,3 +596,50 @@ body {
   color: var(--text-tertiary);
   margin-left: 6px;
 }
+
+/* ====== WEATHER HIGHLIGHTS GRID ====== */
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.highlight-card {
+  background: var(--bg-glass);
+  border: 1.5px solid var(--bg-glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all var(--duration-normal) var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.highlight-card:hover {
+  border-color: var(--bg-glass-border-hover);
+  box-shadow: var(--shadow-md);
+  background: var(--bg-glass-hover);
+}
+
+.highlight-label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.highlight-value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--text-accent);
+}
+
+.highlight-sub {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
