@@ -738,3 +738,24 @@ body {
   background: rgba(156, 39, 176, 0.2);
   color: #ce93d8;
 }
+
+/* ====== FOOTER ====== */
+.app-footer {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--bg-glass-border);
+  margin-top: var(--space-xl);
+}
+
+.app-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+.app-footer a:hover {
+  color: var(--text-accent);
+}
