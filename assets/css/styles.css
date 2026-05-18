@@ -17,6 +17,7 @@
   --accent: #5b9cf5;
   --accent-glow: rgba(91, 156, 245, 0.35);
   --accent-soft: rgba(91, 156, 245, 0.15);
+  --accent-warm: #f5a65b;
 
   /* Gradients */
   --gradient-card: linear-gradient(
@@ -642,4 +643,67 @@ body {
 .highlight-sub {
   font-size: var(--text-xs);
   color: var(--text-tertiary);
+}
+
+/* ====== SUNRISE / SUNSET CARD ====== */
+.sun-card {
+  background: var(--bg-glass);
+  border: 1.5px solid var(--bg-glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.sun-item {
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+}
+
+.sun-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.sun-time {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text-accent);
+}
+
+.sun-label {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-tertiary);
+}
+
+.sun-arc {
+  flex: 2;
+  min-width: 150px;
+  height: 80px;
+  position: relative;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 50% 50%;
+  overflow: hidden;
+}
+
+.sun-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+  background: var(--accent-warm);
+  box-shadow: 0 0 20px rgba(245, 166, 91, 0.7);
+  transition: left 0.6s var(--ease-out);
+  bottom: -7px;
 }
