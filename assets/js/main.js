@@ -78,3 +78,44 @@ function showToast(message) {
     if (toast.parentNode) toast.remove();
   }, 4000);
 }
+
+// ===== RECENT SEARCHES =====
+function loadRecentSearches() {
+  try {
+    const stored = localStorage.getItem('atmospheric_recent');
+    state.recentSearches = stored ? JSON.parse(stored) : [];
+  } catch {
+    state.recentSearches = [];
+  }
+  renderRecentSearches();
+}
+
+function saveRecentSearch(cityName) {
+  const normalizedCity = cityName.toLowerCase();
+  state.recentSearches = [
+    cityName,
+    ...state.recentSearches.filter(s => s.toLowerCase() !== normalizedCity)
+  ].slice(0, APP_CONFIG.MAX_RECENT_SEARCHES);
+  try {
+    localStorage.setItem('atmospheric_recent', JSON.stringify(state.recentSearches));
+  } catch { }
+  renderRecentSearches();
+}
+
+function renderRecentSearches() {
+  if (!state.recentSearches.length) {
+    DOM.recentSearches.innerHTML = '';
+    return;
+  }
+  DOM.recentSearches.innerHTML = state.recentSearches.map(city => `
+    <button class="recent-tag" data-city="${city}" aria-label="Search for ${city}">${city}</button>
+  `).join('');
+
+  DOM.recentSearches.querySelectorAll('.recent-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const city = tag.dataset.city;
+      DOM.searchInput.value = city;
+      searchCity(city);
+    });
+  });
+}
