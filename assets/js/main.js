@@ -59,3 +59,22 @@ const DOM = {
   footerYear: document.getElementById('footerYear'),
   particlesCanvas: document.getElementById('particles-canvas'),
 };
+
+// ===== HELPER FUNCTIONS =====
+function showLoading(show) {
+  if (show) {
+    DOM.loadingScreen.classList.remove('hidden');
+  } else {
+    DOM.loadingScreen.classList.add('hidden');
+  }
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  DOM.toastContainer.appendChild(toast);
+  setTimeout(() => {
+    if (toast.parentNode) toast.remove();
+  }, 4000);
+}
