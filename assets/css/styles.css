@@ -759,3 +759,31 @@ body {
 .app-footer a:hover {
   color: var(--text-accent);
 }
+
+/* ====== RECENT SEARCHES ====== */
+.recent-searches {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.recent-tag {
+  padding: 6px 14px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-glass);
+  border: 1px solid var(--bg-glass-border);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+
+.recent-tag:hover {
+  border-color: var(--accent);
+  color: var(--text-accent);
+  box-shadow: 0 0 12px var(--accent-soft);
+}
