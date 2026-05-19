@@ -93,6 +93,88 @@ body {
   transition: background-color var(--duration-slow) var(--ease-out);
 }
 
+/* ====== ANIMATED GRADIENT BACKGROUND LAYERS ====== */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.bg-layer-1 {
+  background:
+    radial-gradient(
+      ellipse at 20% 20%,
+      rgba(91, 140, 245, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 75% 60%,
+      rgba(140, 80, 230, 0.1) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 50% 90%,
+      rgba(245, 130, 60, 0.06) 0%,
+      transparent 50%
+    );
+  animation: bgPulse 12s ease-in-out infinite;
+}
+
+.bg-layer-2 {
+  background:
+    radial-gradient(
+      ellipse at 60% 30%,
+      rgba(100, 200, 240, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 30% 70%,
+      rgba(160, 100, 240, 0.07) 0%,
+      transparent 50%
+    );
+  animation: bgPulse 16s ease-in-out infinite reverse;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+@keyframes bgPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  33% {
+    opacity: 0.8;
+    transform: scale(1.04);
+  }
+
+  66% {
+    opacity: 0.55;
+    transform: scale(0.97);
+  }
+}
+
+/* Particle canvas */
+#particles-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* ====== LAYOUT ====== */
 .app-container {
   position: relative;
