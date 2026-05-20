@@ -904,6 +904,7 @@ body {
   position: absolute;
   width: 14px;
   height: 14px;
+  left: 20%;
   border-radius: var(--radius-full);
   background: var(--accent-warm);
   box-shadow: 0 0 20px rgba(245, 166, 91, 0.7);
@@ -912,6 +913,24 @@ body {
 }
 
 /* ====== AIR QUALITY ====== */
+.aqi-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.aqi-description {
+  color: var(--text-secondary);
+}
+
+.aqi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
 .aqi-badge {
   display: inline-block;
   padding: 6px 14px;
