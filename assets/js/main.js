@@ -251,4 +251,14 @@ function initEventListeners() {
   window.addEventListener('beforeunload', () => {
     cleanupParticles();
   });
+
+  // Handle tab visibility changes
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cleanupParticles();
+    } else {
+      startParticles();
+    }
+  });
+
 }
