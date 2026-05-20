@@ -213,8 +213,31 @@ function initEventListeners() {
       if (query) searchCity(query);
     }
   });
-  
+
   // Location button
   DOM.locationBtn.addEventListener('click', loadCurrentLocation);
-  
+
+  // Unit toggles (Celsius/Fahrenheit)
+  DOM.unitBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      DOM.unitBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
+      const newUnit = btn.dataset.unit;
+      if (state.units !== newUnit) {
+        state.units = newUnit;
+        if (state.currentWeather && state.forecast) {
+          renderHero(state.currentWeather, state.units);
+          renderCurrentDetails(state.currentWeather, state.units);
+          renderHourlyForecast(state.forecast, state.currentWeather.timezone, state.units);
+          renderForecastGrid(state.forecast, state.currentWeather.timezone, state.units);
+          renderHighlights(state.currentWeather, state.units);
+          renderChart(state.forecast, state.currentWeather.timezone, state.units, state.weatherCondition);
+        }
+      }
+    });
+  });
 }
