@@ -240,4 +240,10 @@ function initEventListeners() {
       }
     });
   });
+
+  // Window resize
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    debouncedChartResize();
+  });
 }
