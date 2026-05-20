@@ -328,3 +328,14 @@ async function init() {
     }
   }
 }
+
+// Start the app
+init();
+
+// ===== PERIODIC REFRESH =====
+setInterval(() => {
+  if (state.currentWeather) {
+    const { lat, lon } = state.currentWeather.coord;
+    loadWeatherByCoords(lat, lon);
+  }
+}, APP_CONFIG.REFRESH_INTERVAL);
