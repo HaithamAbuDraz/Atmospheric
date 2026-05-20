@@ -261,4 +261,17 @@ function initEventListeners() {
     }
   });
 
+  // Hourly slider scroll buttons
+  const hourlySlider = DOM.hourlySlider;
+  const scrollLeftBtn = document.getElementById('hourlyScrollLeft');
+  const scrollRightBtn = document.getElementById('hourlyScrollRight');
+
+  if (scrollLeftBtn && scrollRightBtn) {
+    scrollLeftBtn.addEventListener('click', () => {
+      hourlySlider.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+    scrollRightBtn.addEventListener('click', () => {
+      hourlySlider.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+  }
 }
