@@ -186,3 +186,14 @@ async function loadCurrentLocation() {
     { timeout: 10000, enableHighAccuracy: false }
   );
 }
+
+// ===== CHART RESIZE HANDLER =====
+let chartResizeTimeout;
+function debouncedChartResize() {
+  clearTimeout(chartResizeTimeout);
+  chartResizeTimeout = setTimeout(() => {
+    if (state.currentWeather && state.forecast) {
+      renderChart(state.forecast, state.currentWeather.timezone, state.units, state.weatherCondition);
+    }
+  }, 250);
+}
