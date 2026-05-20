@@ -32,6 +32,7 @@
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
+  --space-2xl: 48px;
 
   /* Radii */
   --radius-md: 16px;
@@ -988,4 +989,122 @@ body {
   border-color: var(--accent);
   color: var(--text-accent);
   box-shadow: 0 0 12px var(--accent-soft);
+}
+
+/* ====== RESPONSIVE BREAKPOINTS ====== */
+@media (max-width: 768px) {
+  .app-container {
+    padding: var(--space-sm);
+    gap: var(--space-md);
+  }
+
+  .nav-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+  }
+
+  .nav-controls {
+    justify-content: center;
+  }
+
+  .hero-temp {
+    font-size: clamp(3rem, 12vw, 5rem);
+  }
+
+  .hero-icon {
+    font-size: 3.5rem;
+  }
+
+  .highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .forecast-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .current-detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sun-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .sun-arc {
+    width: 100%;
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .highlights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .current-detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hourly-card {
+    min-width: 70px;
+    padding: var(--space-sm);
+  }
+
+  .unit-btn {
+    padding: 8px 12px;
+    font-size: var(--text-xs);
+  }
+
+  .location-btn {
+    padding: 8px 12px;
+    font-size: var(--text-xs);
+  }
+}
+
+@media (min-width: 1440px) {
+  .app-container {
+    max-width: 1500px;
+    padding: var(--space-xl);
+    gap: var(--space-xl);
+  }
+
+  .highlights-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .forecast-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .current-detail-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 2560px) {
+  .app-container {
+    max-width: 2000px;
+    padding: var(--space-2xl);
+    gap: var(--space-2xl);
+  }
+
+  body {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: var(--space-xl);
+    border-radius: var(--radius-xl);
+  }
 }
