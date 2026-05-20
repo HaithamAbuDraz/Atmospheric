@@ -22,7 +22,7 @@
 <body>
 
   <!-- ====== BACKGROUND LAYERS ====== -->
-  <div class="c bg-layer-1" aria-hidden="true"></div>
+  <div class="bg-layer-1" aria-hidden="true"></div>
   <div class="bg-layer bg-layer-2" aria-hidden="true"></div>
   <div class="bg-grid" aria-hidden="true"></div>
   <canvas id="particles-canvas" aria-hidden="true"></canvas>
@@ -149,13 +149,11 @@
     <section aria-label="Air quality index" id="airQualitySection">
       <h2 class="card-title">Air Quality</h2>
       <div class="card" id="airQualityCard">
-        <div style="display:flex;align-items:center;gap:var(--space-md);flex-wrap:wrap;">
-          <span class="aqi-badge" id="aqiBadge" style="font-size:1rem;">—</span>
-          <span style="color:var(--text-secondary);" id="aqiDescription">Loading air quality data...</span>
+        <div class="aqi-header">
+          <span class="aqi-badge" id="aqiBadge">—</span>
+          <span class="aqi-description" id="aqiDescription">Loading air quality data...</span>
         </div>
-        <div
-          style="display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:var(--space-md);margin-top:var(--space-md);"
-          id="aqiComponents">
+        <div class="aqi-grid" id="aqiComponents">
           <!-- Populated by JS -->
         </div>
       </div>
