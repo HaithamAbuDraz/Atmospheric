@@ -155,3 +155,15 @@ async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
     showLoading(false);
   }
 }
+
+async function searchCity(cityName) {
+  if (!cityName.trim()) return;
+  try {
+    const geo = await geocodeCity(cityName.trim());
+    await loadWeatherByCoords(geo.lat, geo.lon, geo.name);
+    DOM.searchInput.value = '';
+    DOM.searchInput.blur();
+  } catch (error) {
+    showToast(`⚠️ ${error.message}`);
+  }
+}
