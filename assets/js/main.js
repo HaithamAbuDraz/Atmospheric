@@ -246,4 +246,9 @@ function initEventListeners() {
     resizeCanvas();
     debouncedChartResize();
   });
+
+  // Cleanup before page unload
+  window.addEventListener('beforeunload', () => {
+    cleanupParticles();
+  });
 }
