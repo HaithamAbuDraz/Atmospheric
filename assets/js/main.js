@@ -197,3 +197,20 @@ function debouncedChartResize() {
     }
   }, 250);
 }
+
+// ===== EVENT LISTENERS =====
+function initEventListeners() {
+  // Search button
+  DOM.searchBtn.addEventListener('click', () => {
+    const query = DOM.searchInput.value.trim();
+    if (query) searchCity(query);
+  });
+
+  // Enter key in search input
+  DOM.searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const query = DOM.searchInput.value.trim();
+      if (query) searchCity(query);
+    }
+  });
+}
