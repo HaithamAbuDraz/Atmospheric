@@ -275,3 +275,56 @@ function initEventListeners() {
     });
   }
 }
+
+// ===== INITIALIZE APP =====
+async function init() {
+  DOM.footerYear.textContent = new Date().getFullYear();
+
+  setDOMReferences(DOM);
+  initParticles(DOM.particlesCanvas, APP_CONFIG.PARTICLE_COUNT);
+  loadRecentSearches();
+  resizeCanvas();
+  startParticles();
+  updateParticles(800);
+
+  initEventListeners();
+
+  if (!APIConfig.API_KEY || APIConfig.API_KEY === '') {
+    showToast('🔑 OpenWeatherMap API key missing. Get one at openweathermap.org/appid');
+    showLoading(false);
+
+    DOM.heroCity.textContent = 'Atmospheric';
+    DOM.heroDate.textContent = '⚠️ API Key Required';
+    DOM.heroTemp.innerHTML = '—<sup>°</sup>';
+    DOM.heroCondition.textContent = 'Please add your API key to weather-api.js';
+    DOM.heroFeelsLike.textContent = 'See console for instructions';
+
+    console.error(
+      '❌ Atmospheric: OpenWeatherMap API key missing!\n' +
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+      '📋 SETUP INSTRUCTIONS:\n' +
+      '  1. Go to https://openweathermap.org/appid\n' +
+      '  2. Sign up for a free account (or log in)\n' +
+      '  3. Navigate to "API Keys" section\n' +
+      '  4. Copy your personal API key\n' +
+      '  5. Open weather-api.js file\n' +
+      '  6. Set API_KEY to your key\n' +
+      '  7. Save the file and refresh the page\n' +
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+    );
+    return;
+  }
+
+  console.log('✅ API Key found, loading weather data...');
+
+  try {
+    await searchCity(APP_CONFIG.DEFAULT_CITY);
+  } catch {
+    try {
+      await loadCurrentLocation();
+    } catch {
+      showToast('⚠️ Unable to load weather data. Please search for a city.');
+      showLoading(false);
+    }
+  }
+}
