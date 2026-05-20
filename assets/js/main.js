@@ -213,4 +213,8 @@ function initEventListeners() {
       if (query) searchCity(query);
     }
   });
+  
+  // Location button
+  DOM.locationBtn.addEventListener('click', loadCurrentLocation);
+  
 }
