@@ -119,3 +119,39 @@ function renderRecentSearches() {
     });
   });
 }
+
+// ===== DATA LOADING =====
+async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
+  showLoading(true);
+  try {
+    const { weather, forecast, airPollution } = await fetchAllData(lat, lon);
+    state.currentWeather = weather;
+    state.forecast = forecast;
+    state.airPollution = airPollution;
+
+    setState({ units: state.units, weatherCondition: state.weatherCondition });
+
+    renderHero(weather, state.units);
+    renderCurrentDetails(weather, state.units);
+    renderHourlyForecast(forecast, weather.timezone, state.units);
+    renderForecastGrid(forecast, weather.timezone, state.units);
+    renderHighlights(weather, state.units);
+    renderSunriseSunset(weather);
+    renderAirQuality(airPollution);
+    renderChart(forecast, weather.timezone, state.units, state.weatherCondition);
+
+    if (cityNameForSave) {
+      saveRecentSearch(cityNameForSave);
+    } else {
+      saveRecentSearch(weather.name);
+    }
+
+    updateParticles(weather.weather[0].id);
+    DOM.appContainer.style.opacity = '1';
+  } catch (error) {
+    showToast(`⚠️ ${error.message}`);
+    console.error('Weather load error:', error);
+  } finally {
+    showLoading(false);
+  }
+}
