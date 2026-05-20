@@ -167,3 +167,22 @@ async function searchCity(cityName) {
     showToast(`⚠️ ${error.message}`);
   }
 }
+
+async function loadCurrentLocation() {
+  if (!navigator.geolocation) {
+    showToast('⚠️ Geolocation is not supported by your browser.');
+    return;
+  }
+  showLoading(true);
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      await loadWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
+    },
+    (err) => {
+      showLoading(false);
+      showToast('⚠️ Unable to access location. Please search for a city manually.');
+      console.error('Geolocation error:', err);
+    },
+    { timeout: 10000, enableHighAccuracy: false }
+  );
+}
