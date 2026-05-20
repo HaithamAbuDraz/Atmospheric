@@ -94,7 +94,7 @@
     <!-- Hourly Forecast -->
     <section aria-label="Hourly forecast">
       <h2 class="card-title">Hourly Forecast</h2>
-      <div class="hourly-slider-container" style="position:relative;">
+      <div class="hourly-slider-container">
         <button class="slider-btn left" id="hourlyScrollLeft" aria-label="Scroll left">◀</button>
         <div class="hourly-slider" id="hourlySlider"></div>
         <button class="slider-btn right" id="hourlyScrollRight" aria-label="Scroll right">▶</button>
@@ -135,7 +135,7 @@
           <div class="sun-label">Sunrise</div>
         </div>
         <div class="sun-arc" id="sunArc">
-          <div class="sun-dot" id="sunDot" style="left:20%;"></div>
+          <div class="sun-dot" id="sunDot"></div>
         </div>
         <div class="sun-item">
           <div class="sun-icon">🌇</div>
@@ -164,8 +164,7 @@
       <p>Atmospheric &copy; <span id="footerYear"></span> — Weather Intelligence Platform ·
         Powered by <a href="https://openweathermap.org" target="_blank" rel="noopener noreferrer">OpenWeatherMap</a>
       </p>
-      <p style="margin-top:4px;">Data updates every 10 minutes · Developed by <strong>Haitham Abu
-          Draz</strong></p>
+      <p class="app-footer-meta">Data updates every 10 minutes · Developed by <strong>Haitham Abu Draz</strong></p>
     </footer>
 
   </main>
