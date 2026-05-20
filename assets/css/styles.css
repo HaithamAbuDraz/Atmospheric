@@ -982,6 +982,10 @@ body {
   color: var(--text-accent);
 }
 
+.app-footer-meta {
+  margin-top: 4px;
+}
+
 /* ====== RECENT SEARCHES ====== */
 .recent-searches {
   display: flex;
