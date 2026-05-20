@@ -339,3 +339,13 @@ setInterval(() => {
     loadWeatherByCoords(lat, lon);
   }
 }, APP_CONFIG.REFRESH_INTERVAL);
+
+// ===== CONSOLE WELCOME =====
+console.log(
+  '%c🌤️ Atmospheric %cWeather Intelligence Platform %cready.',
+  'font-size:1.4em;font-weight:bold;',
+  'font-size:1em;',
+  'color:#888;'
+);
+console.log('%cBuilt with precision • Vanilla JS Modules • OpenWeatherMap API',
+  'color:#6b6b88;font-style:italic;');
