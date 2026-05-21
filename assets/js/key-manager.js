@@ -1,6 +1,6 @@
 // key-manager.js - API Key Management
 
-import { setApiKey } from './weather-api.js'
+import { validateApiKey, setApiKey } from './weather-api.js'
 
 const STORAGE_KEY = 'atmospheric_api_key';
 
@@ -54,5 +54,25 @@ export function showApiKeyModal(errorMsg = '') {
 export function hideApiKeyModal() {
   if (modal) {
     modal.style.display = 'none';
+  }
+}
+
+export async function validateAndSaveApiKey(apiKey) {
+  const trimmedKey = apiKey.trim();
+
+  if (!trimmedKey || trimmedKey.length < 32) {
+    return { success: false, error: 'API key seems too short. Please check and try again.' };
+  }
+
+  try {
+    const isValid = await validateApiKey(trimmedKey);
+    if (isValid) {
+      saveApiKey(trimmedKey);
+      return { success: true };
+    } else {
+      return { success: false, error: 'Invalid API key. Please get a valid key from OpenWeatherMap.' };
+    }
+  } catch (err) {
+    return { success: false, error: err.message };
   }
 }
