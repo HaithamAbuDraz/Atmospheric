@@ -4,6 +4,11 @@ import { setApiKey } from './weather-api.js'
 
 const STORAGE_KEY = 'atmospheric_api_key';
 
+// DOM Elements
+const modal = document.getElementById('apiKeyModal');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const errorMsgDiv = document.getElementById('apiKeyErrorMsg');
+
 export function getStoredApiKey() {
   try {
     return localStorage.getItem(STORAGE_KEY);
@@ -30,5 +35,24 @@ export function removeStoredApiKey() {
   } catch (error) {
     console.warn('Failed to remove API key from localStorage:', error);
     return false;
+  }
+}
+
+export function showApiKeyModal(errorMsg = '') {
+  if (modal) {
+    modal.style.display = 'flex';
+    if (errorMsgDiv) {
+      errorMsgDiv.innerHTML = errorMsg ? `<div class="key-error">⚠️ ${errorMsg}</div>` : '';
+    }
+    if (apiKeyInput) {
+      apiKeyInput.value = '';
+      apiKeyInput.focus();
+    }
+  }
+}
+
+export function hideApiKeyModal() {
+  if (modal) {
+    modal.style.display = 'none';
   }
 }
