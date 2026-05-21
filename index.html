@@ -34,6 +34,30 @@
     <p class="loading-text">Reading the atmosphere...</p>
   </div>
 
+  <!-- ======  API KEY MODAL ====== -->
+  <div class="key-modal-overlay" id="apiKeyModal" style="display: none;">
+    <div class="key-modal-card">
+      <div class="key-modal-icon">🔑🌤️</div>
+      <h2 class="key-modal-title">Atmospheric Access</h2>
+      <p class="key-modal-desc">To provide hyperlocal weather intelligence, please enter your <strong>OpenWeatherMap API
+          key</strong>.<br>It will be stored locally & never shared.</p>
+      <div class="key-input-group">
+        <label>🔒 API Key</label>
+        <input type="text" id="apiKeyInput" class="key-input" placeholder="Enter your OpenWeatherMap API key"
+          autocomplete="off">
+        <div id="apiKeyErrorMsg" style="min-height: 48px;"></div>
+      </div>
+      <div class="btn-group">
+        <button id="saveApiKeyBtn" class="btn-primary">✓ Validate & Save</button>
+      </div>
+      <div class="info-hint">
+        💡 Don't have a key? <a href="https://openweathermap.org/api" target="_blank" rel="noopener">Get free API
+          key</a> (takes 1 minute).<br>
+        Your key stays private on this device.
+      </div>
+    </div>
+  </div>
+
   <!-- ====== TOAST CONTAINER ====== -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
