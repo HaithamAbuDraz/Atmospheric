@@ -18,34 +18,33 @@ export const WEATHER_CONFIG = {
   GEO_BASE: 'https://api.openweathermap.org/geo/1.0',
 };
 
-// Production warning for exposed API key
-if (window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1')) {
-  console.warn('⚠️ Production: API key exposed! Use a backend proxy.');
-}
-
 export async function fetchWeatherByCoords(lat, lon) {
-  const url = `${WEATHER_CONFIG.API_BASE}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_CONFIG.API_KEY}`;
+  if (!API_KEY) throw new Error('API key not set');
+  const url = `${WEATHER_CONFIG.API_BASE}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Weather fetch failed: ${response.status}`);
   return response.json();
 }
 
 export async function fetchForecastByCoords(lat, lon) {
-  const url = `${WEATHER_CONFIG.API_BASE}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_CONFIG.API_KEY}`;
+  if (!API_KEY) throw new Error('API key not set');
+  const url = `${WEATHER_CONFIG.API_BASE}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Forecast fetch failed: ${response.status}`);
   return response.json();
 }
 
 export async function fetchAirPollution(lat, lon) {
-  const url = `${WEATHER_CONFIG.API_BASE}/air_pollution?lat=${lat}&lon=${lon}&appid=${WEATHER_CONFIG.API_KEY}`;
+  if (!API_KEY) throw new Error('API key not set');
+  const url = `${WEATHER_CONFIG.API_BASE}/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
   const response = await fetch(url);
   if (!response.ok) return null;
   return response.json();
 }
 
 export async function geocodeCity(cityName) {
-  const url = `${WEATHER_CONFIG.GEO_BASE}/direct?q=${encodeURIComponent(cityName)}&limit=1&appid=${WEATHER_CONFIG.API_KEY}`;
+  if (!API_KEY) throw new Error('API key not set');
+  const url = `${WEATHER_CONFIG.GEO_BASE}/direct?q=${encodeURIComponent(cityName)}&limit=1&appid=${API_KEY}`;
   const response = await fetch(url);
   if (!response.ok) throw new Error('Geocoding failed');
   const data = await response.json();
