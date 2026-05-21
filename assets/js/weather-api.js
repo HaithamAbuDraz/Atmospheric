@@ -1,7 +1,19 @@
 // weather-api.js - API Calls
 
+let API_KEY = '';
+
+export function setApiKey(key) {
+  API_KEY = key;
+}
+
+export function getApiKey() {
+  return API_KEY;
+}
+
 export const WEATHER_CONFIG = {
-  API_KEY: 'YOUR_API_KEY_HERE',
+  get API_KEY() {
+    return API_KEY;
+  },
   API_BASE: 'https://api.openweathermap.org/data/2.5',
   GEO_BASE: 'https://api.openweathermap.org/geo/1.0',
 };
