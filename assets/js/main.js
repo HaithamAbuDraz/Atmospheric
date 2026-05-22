@@ -61,6 +61,27 @@ const DOM = {
   particlesCanvas: document.getElementById('particles-canvas'),
 };
 
+
+// ===== REFRESH INTERVAL MANAGEMENT =====
+let refreshInterval = null;
+
+function clearRefreshInterval() {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+    refreshInterval = null;
+  }
+}
+
+function startRefreshInterval() {
+  clearRefreshInterval();
+  refreshInterval = setInterval(() => {
+    if (state.currentWeather) {
+      const { lat, lon } = state.currentWeather.coord;
+      loadWeatherByCoords(lat, lon);
+    }
+  }, APP_CONFIG.REFRESH_INTERVAL);
+}
+
 // ===== HELPER FUNCTIONS =====
 function showLoading(show) {
   if (show) {
