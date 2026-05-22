@@ -478,6 +478,48 @@ body {
   }
 }
 
+@media (max-width: 768px) {
+  .key-modal-card {
+    padding: var(--space-xl) var(--space-lg);
+    margin: var(--space-md);
+  }
+
+  .key-modal-icon {
+    font-size: 48px;
+  }
+
+  .key-modal-title {
+    font-size: 1.6rem;
+  }
+
+  .key-modal-desc {
+    font-size: var(--text-sm);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .key-modal-card {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .key-modal-icon {
+    font-size: 42px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
 
 /* ====== LOADING SCREEN ====== */
 .loading-screen {
