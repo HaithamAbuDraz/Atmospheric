@@ -360,9 +360,14 @@ async function checkAndInitialize() {
   }
 
   setupKeyModalHandlers(async () => {
+  try {
     await initializeAppWithApiKey();
     startRefreshInterval();
-  });
+  } catch (err) {
+    showToast('Failed to load weather. Please check API key or try again.', true);
+    showLoading(false);
+  }
+});
 }
 
 // Cleanup function for app shutdown
