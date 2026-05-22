@@ -365,23 +365,24 @@ async function checkAndInitialize() {
   });
 }
 
-// Start the app
-init();
-
-// ===== PERIODIC REFRESH =====
-setInterval(() => {
-  if (state.currentWeather) {
-    const { lat, lon } = state.currentWeather.coord;
-    loadWeatherByCoords(lat, lon);
+// Cleanup function for app shutdown
+export function cleanupApp() {
+  clearRefreshInterval();
+  cleanupParticles();
+  if (chartResizeTimeout) {
+    clearTimeout(chartResizeTimeout);
   }
-}, APP_CONFIG.REFRESH_INTERVAL);
+}
 
-// ===== CONSOLE WELCOME =====
+// Start the app
+checkAndInitialize();
+
 console.log(
   '%c🌤️ Atmospheric %cWeather Intelligence Platform %cready.',
   'font-size:1.4em;font-weight:bold;',
   'font-size:1em;',
   'color:#888;'
 );
-console.log('%cBuilt with precision • Vanilla JS Modules • OpenWeatherMap API',
-  'color:#6b6b88;font-style:italic;');
+console.log('%cBuilt with precision • Vanilla JS Modules • OpenWeatherMap API • Secure Key Management',
+  'color:#6b6b88;font-style:italic;'
+);
