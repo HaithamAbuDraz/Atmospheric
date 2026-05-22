@@ -283,6 +283,7 @@ function initEventListeners() {
   // Cleanup before page unload
   window.addEventListener('beforeunload', () => {
     cleanupParticles();
+    clearRefreshInterval();
   });
 
   // Handle tab visibility changes
