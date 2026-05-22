@@ -311,7 +311,7 @@ function initEventListeners() {
 }
 
 // ===== INITIALIZE APP =====
-async function init() {
+async function initializeAppWithApiKey() {
   DOM.footerYear.textContent = new Date().getFullYear();
 
   setDOMReferences(DOM);
@@ -320,47 +320,49 @@ async function init() {
   resizeCanvas();
   startParticles();
   updateParticles(800);
-
   initEventListeners();
-
-  if (!APIConfig.API_KEY || APIConfig.API_KEY === '') {
-    showToast('🔑 OpenWeatherMap API key missing. Get one at openweathermap.org/appid');
-    showLoading(false);
-
-    DOM.heroCity.textContent = 'Atmospheric';
-    DOM.heroDate.textContent = '⚠️ API Key Required';
-    DOM.heroTemp.innerHTML = '—<sup>°</sup>';
-    DOM.heroCondition.textContent = 'Please add your API key to weather-api.js';
-    DOM.heroFeelsLike.textContent = 'See console for instructions';
-
-    console.error(
-      '❌ Atmospheric: OpenWeatherMap API key missing!\n' +
-      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
-      '📋 SETUP INSTRUCTIONS:\n' +
-      '  1. Go to https://openweathermap.org/appid\n' +
-      '  2. Sign up for a free account (or log in)\n' +
-      '  3. Navigate to "API Keys" section\n' +
-      '  4. Copy your personal API key\n' +
-      '  5. Open weather-api.js file\n' +
-      '  6. Set API_KEY to your key\n' +
-      '  7. Save the file and refresh the page\n' +
-      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-    );
-    return;
-  }
-
-  console.log('✅ API Key found, loading weather data...');
 
   try {
     await searchCity(APP_CONFIG.DEFAULT_CITY);
-  } catch {
+  } catch (error) {
+    console.warn('Default city failed, trying location:', error);
     try {
       await loadCurrentLocation();
-    } catch {
+    } catch (locationError) {
       showToast('⚠️ Unable to load weather data. Please search for a city.');
       showLoading(false);
+      throw locationError;
     }
   }
+}
+
+// Check for existing API key and validate it
+async function checkAndInitialize() {
+  const storedKey = getStoredApiKey();
+
+  if (storedKey && storedKey.length > 10) {
+    try {
+      const isValid = await validateApiKey(storedKey);
+      if (isValid) {
+        setApiKey(storedKey);
+        hideApiKeyModal();
+        await initializeAppWithApiKey();
+        startRefreshInterval();
+        return;
+      } else {
+        showApiKeyModal('Previously stored API key is invalid. Please enter a valid OpenWeatherMap key.');
+      }
+    } catch (err) {
+      showApiKeyModal(`Key validation error: ${err.message}. Please re-enter.`);
+    }
+  } else {
+    showApiKeyModal();
+  }
+
+  setupKeyModalHandlers(async () => {
+    await initializeAppWithApiKey();
+    startRefreshInterval();
+  });
 }
 
 // Start the app
