@@ -1,6 +1,7 @@
-// main.js - App Initialization
+// main.js - App Initialization with API Key Management
 
-import { fetchAllData, geocodeCity, WEATHER_CONFIG as APIConfig } from './weather-api.js';
+import { fetchAllData, geocodeCity, setApiKey, validateApiKey } from './weather-api.js';
+import { getStoredApiKey, showApiKeyModal, hideApiKeyModal, setupKeyModalHandlers, saveApiKey } from './key-manager.js';
 import {
   setDOMReferences, setState, renderHero, renderCurrentDetails,
   renderHourlyForecast, renderForecastGrid, renderHighlights,
@@ -69,10 +70,14 @@ function showLoading(show) {
   }
 }
 
-function showToast(message) {
+function showToast(message, isError = true) {
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = message;
+  if (!isError) {
+    toast.style.borderColor = 'rgba(80, 255, 80, 0.4)';
+    toast.style.color = '#a5fca5';
+  }
   DOM.toastContainer.appendChild(toast);
   setTimeout(() => {
     if (toast.parentNode) toast.remove();
