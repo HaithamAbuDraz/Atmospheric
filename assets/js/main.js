@@ -134,7 +134,11 @@ async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
     state.forecast = forecast;
     state.airPollution = airPollution;
 
-    setState({ units: state.units, weatherCondition: state.weatherCondition });
+    // Update weather condition properly
+    const condition = weather.weather[0].main;
+    state.weatherCondition = condition;
+
+    setState({ units: state.units, weatherCondition: condition });
 
     renderHero(weather, state.units);
     renderCurrentDetails(weather, state.units);
@@ -143,7 +147,7 @@ async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
     renderHighlights(weather, state.units);
     renderSunriseSunset(weather);
     renderAirQuality(airPollution);
-    renderChart(forecast, weather.timezone, state.units, state.weatherCondition);
+    renderChart(forecast, weather.timezone, state.units, condition);
 
     if (cityNameForSave) {
       saveRecentSearch(cityNameForSave);
@@ -156,6 +160,7 @@ async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
   } catch (error) {
     showToast(`⚠️ ${error.message}`);
     console.error('Weather load error:', error);
+    throw error;
   } finally {
     showLoading(false);
   }
@@ -163,6 +168,7 @@ async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
 
 async function searchCity(cityName) {
   if (!cityName.trim()) return;
+  showLoading(true);
   try {
     const geo = await geocodeCity(cityName.trim());
     await loadWeatherByCoords(geo.lat, geo.lon, geo.name);
@@ -170,6 +176,7 @@ async function searchCity(cityName) {
     DOM.searchInput.blur();
   } catch (error) {
     showToast(`⚠️ ${error.message}`);
+    showLoading(false);
   }
 }
 
