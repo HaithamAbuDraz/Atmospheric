@@ -7,6 +7,7 @@ let particleAnimationId = null;
 let canvas = null;
 let ctx = null;
 let PARTICLE_COUNT = 60;
+let lastWeatherId = 800; // store last weather condition for resize
 
 export function initParticles(canvasElement, particleCount = 60) {
   canvas = canvasElement;
@@ -20,6 +21,10 @@ export function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
+  // Regenerate particles on resize to match new dimensions
+  if (lastWeatherId) {
+    updateParticles(lastWeatherId);
+  }
 }
 
 export function updateParticles(weatherId) {
@@ -31,6 +36,7 @@ export function updateParticles(weatherId) {
   }
 
   const condition = getWeatherCondition(weatherId);
+  lastWeatherId = weatherId; // store for resize
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
