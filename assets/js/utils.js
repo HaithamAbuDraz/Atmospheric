@@ -109,3 +109,10 @@ export function hexToRGBA(hex, alpha) {
   const b = parseInt(hex.slice(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
+export function isDaytimeForTimestamp(timestamp, timezoneOffset, sunrise, sunset) {
+  const localTimestamp = timestamp + timezoneOffset;
+  const localSunrise = sunrise + timezoneOffset;
+  const localSunset = sunset + timezoneOffset;
+  return localTimestamp > localSunrise && localTimestamp < localSunset;
+}
