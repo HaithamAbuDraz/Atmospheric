@@ -44,12 +44,36 @@ export async function fetchAirPollution(lat, lon) {
 
 export async function geocodeCity(cityName) {
   if (!API_KEY) throw new Error('API key not set');
-  const url = `${WEATHER_CONFIG.GEO_BASE}/direct?q=${encodeURIComponent(cityName)}&limit=1&appid=${API_KEY}`;
+
+  const url = `${WEATHER_CONFIG.GEO_BASE}/direct?q=${encodeURIComponent(cityName)}&limit=5&appid=${API_KEY}`;
   const response = await fetch(url);
+
   if (!response.ok) throw new Error('Geocoding failed');
   const data = await response.json();
   if (!data.length) throw new Error('City not found. Please check the spelling.');
-  return { lat: data[0].lat, lon: data[0].lon, name: data[0].name, country: data[0].country };
+
+  const normalizedQuery = cityName.trim().toLowerCase();
+
+  let bestMatch = data.find(item => item.name.toLowerCase() === normalizedQuery);
+
+  if (!bestMatch) {
+    bestMatch = data.find(item =>
+      item.name.toLowerCase().includes(normalizedQuery) ||
+      normalizedQuery.includes(item.name.toLowerCase())
+    );
+  }
+
+  if (!bestMatch) {
+    bestMatch = data[0];
+    console.warn(`Exact match not found for "${cityName}", using first result: ${bestMatch.name}`);
+  }
+
+  return {
+    lat: bestMatch.lat,
+    lon: bestMatch.lon,
+    name: bestMatch.name,
+    country: bestMatch.country
+  };
 }
 
 export async function fetchAllData(lat, lon) {
