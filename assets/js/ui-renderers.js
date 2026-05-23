@@ -4,7 +4,7 @@ import {
   formatDate, formatTime, formatHour, formatDay,
   formatTemp, convertTemp, convertWindSpeed, convertVisibility,
   getWindUnit, getVisibilityUnit, getWeatherEmoji, getWeatherCondition,
-  getAccentColor, hexToRGBA
+  getAccentColor, hexToRGBA, isDaytimeForTimestamp
 } from './utils.js';
 
 let DOM = {};
@@ -35,7 +35,8 @@ export function renderHero(weather, units, cityNameOverride = null) {
   DOM.heroIcon.textContent = getWeatherEmoji(weather.weather[0].id, isDay);
 
   const cityDisplay = cityNameOverride || weather.name;
-  DOM.heroCity.textContent = `${cityDisplay}, ${weather.sys.country || ''}`;
+  const countryPart = weather.sys.country ? `, ${weather.sys.country}` : '';
+  DOM.heroCity.textContent = `${cityDisplay}${countryPart}`;
 
   DOM.heroDate.textContent = formatDate(weather.dt, weather.timezone);
   DOM.heroTemp.innerHTML = `${formatTemp(weather.main.temp, units)}<sup>°</sup>`;
@@ -66,7 +67,11 @@ export function renderHourlyForecast(forecast, timezoneOffset, units) {
   const hourlyData = forecast.list.slice(0, 12);
   DOM.hourlySlider.innerHTML = hourlyData.map(item => {
     const hour = formatHour(item.dt, timezoneOffset);
-    const icon = getWeatherEmoji(item.weather[0].id, true);
+    // Determine day/night based on the forecast item's timestamp
+    // For simplicity, use hour of day: 6-18 = day, else night
+    const itemHour = new Date((item.dt + timezoneOffset) * 1000).getUTCHours();
+    const isDay = itemHour >= 6 && itemHour < 18;
+    const icon = getWeatherEmoji(item.weather[0].id, isDay);
     const temp = formatTemp(item.main.temp, units);
     return `
       <div class="hourly-card">
@@ -192,8 +197,7 @@ export function renderAirQuality(airPollution) {
 
 export function renderChart(forecast, timezoneOffset, units, weatherCondition) {
   if (typeof Chart === 'undefined') {
-    console.error('Chart.js library failed to load');
-    DOM.chartContainer.innerHTML = '<div style="text-align:center;padding:2rem;">Chart unavailable</div>';
+    DOM.chartContainer.innerHTML = '<div style="text-align:center;padding:2rem;">⚠️ Chart library failed to load. Please refresh the page.</div>';
     return;
   }
 
