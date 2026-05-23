@@ -26,6 +26,7 @@ let state = {
   airPollution: null,
   recentSearches: [],
   weatherCondition: 'Clear',
+  displayCityName: '',
 };
 
 // ===== DOM ELEMENTS =====
@@ -77,7 +78,8 @@ function startRefreshInterval() {
   refreshInterval = setInterval(() => {
     if (state.currentWeather) {
       const { lat, lon } = state.currentWeather.coord;
-      loadWeatherByCoords(lat, lon);
+      // Pass the stored display name so it doesn't revert to a neighborhood
+      loadWeatherByCoords(lat, lon, state.displayCityName);
     }
   }, APP_CONFIG.REFRESH_INTERVAL);
 }
@@ -147,21 +149,29 @@ function renderRecentSearches() {
 }
 
 // ===== DATA LOADING =====
-async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
+async function loadWeatherByCoords(lat, lon, preferredCityName = null) {
   showLoading(true);
   try {
     const { weather, forecast, airPollution } = await fetchAllData(lat, lon);
+
+    // Override the API's name if a preferred city name is provided
+    if (preferredCityName) {
+      weather.name = preferredCityName;
+    }
+
     state.currentWeather = weather;
     state.forecast = forecast;
     state.airPollution = airPollution;
 
-    // Update weather condition properly
+    // Store the name to be used in UI (even on refresh)
+    state.displayCityName = weather.name;
+
     const condition = weather.weather[0].main;
     state.weatherCondition = condition;
 
     setState({ units: state.units, weatherCondition: condition });
 
-    renderHero(weather, state.units);
+    renderHero(state.currentWeather, state.units, state.displayCityName);
     renderCurrentDetails(weather, state.units);
     renderHourlyForecast(forecast, weather.timezone, state.units);
     renderForecastGrid(forecast, weather.timezone, state.units);
@@ -170,11 +180,8 @@ async function loadWeatherByCoords(lat, lon, cityNameForSave = null) {
     renderAirQuality(airPollution);
     renderChart(forecast, weather.timezone, state.units, condition);
 
-    if (cityNameForSave) {
-      saveRecentSearch(cityNameForSave);
-    } else {
-      saveRecentSearch(weather.name);
-    }
+    // Save recent search using the canonical name
+    saveRecentSearch(state.displayCityName);
 
     updateParticles(weather.weather[0].id);
     DOM.appContainer.style.opacity = '1';
@@ -360,14 +367,14 @@ async function checkAndInitialize() {
   }
 
   setupKeyModalHandlers(async () => {
-  try {
-    await initializeAppWithApiKey();
-    startRefreshInterval();
-  } catch (err) {
-    showToast('Failed to load weather. Please check API key or try again.', true);
-    showLoading(false);
-  }
-});
+    try {
+      await initializeAppWithApiKey();
+      startRefreshInterval();
+    } catch (err) {
+      showToast('Failed to load weather. Please check API key or try again.', true);
+      showLoading(false);
+    }
+  });
 }
 
 // Cleanup function for app shutdown
